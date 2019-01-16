@@ -24,25 +24,27 @@ cv2.createTrackbar(gh, wnd, 0,   255, nothing)
 cv2.createTrackbar(rl, wnd, 0,   255, nothing)
 cv2.createTrackbar(rh, wnd, 0,   255, nothing)
     
-# cargo lower_green = np.array([0,203,0])
-# cargo upper_green = np.array([178,255,219])
-lower_green = np.array([227,235,226])
-upper_green = np.array([255,255,254])
-test_image = cv2.imread('images/rocket/rocket_image2.jpg')
 
-# cv2.imshow('Test',test_image)x
-resizedImage = cv2.resize(test_image,(300,300))
-
-# cv2.imshow('Resized',resizedImage)
-
-veryMaskedImage = cv2.inRange(resizedImage,lower_green,upper_green)
-cv2.imshow('test',veryMaskedImage)
-cv2.imshow('RRR',resizedImage)
-# cv2.imshow('Gray',grayImage)
 
 while True:
     ret, frame = cap.read()
     cv2.imshow("Video Capture",frame)
+    # cargo lower_green = np.array([0,203,0])
+    # cargo upper_green = np.array([178,255,219])
+    lower_green = np.array([227,235,226])
+    upper_green = np.array([255,255,254])
+    test_image = frame #cv2.imread('images/human_player/s.jpg')
+
+    # cv2.imshow('Test',test_image)x
+    resizedImage = cv2.resize(test_image,(300,300))
+    resizedImage = resizedImage[125:300, 0:300]
+
+    # cv2.imshow('Resized',resizedImage)
+
+    veryMaskedImage = cv2.inRange(resizedImage,lower_green,upper_green)
+    cv2.imshow('test',veryMaskedImage)
+    cv2.imshow('RRR',resizedImage)
+    # cv2.imshow('Gray',grayImage)
 
     bLow  = cv2.getTrackbarPos(bl, wnd)
     bHigh = cv2.getTrackbarPos(bh, wnd)
@@ -65,11 +67,11 @@ while True:
     contourCounter = 0
     for contour in contours:
         area =  cv2.contourArea(contour)
-        if(area > 200):
+        if(area > 125):
             contourIndexes.append(contourCounter)
         contourCounter += 1
     print(contourIndexes)
-    if(len(contourIndexes) > 2):
+    if(len(contourIndexes) >= 2):
         cnt = contours[contourIndexes[-1]]
         cnt2 = contours[contourIndexes[-2]]
         cv2.drawContours(resizedImage,[cnt],0,(255,0,0),4)
@@ -81,9 +83,6 @@ while True:
         cv2.line(resizedImage,(midPoint,0),(midPoint,300), (255,255,255))
         cv2.line(resizedImage,(0,150),(300,150), (255,255,255))
     
-    # cv2.line(resizedImage,(x,0),(x,300), (255,255,255))
-    # cv2.line(resizedImage,(x2,0),(x2,300), (255,255,255))
-
     cv2.imshow('Filled Image',resizedImage)
 
     keyPressed = cv2.waitKey(1)
