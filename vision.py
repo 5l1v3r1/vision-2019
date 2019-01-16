@@ -33,7 +33,7 @@ while True:
     # cargo upper_green = np.array([178,255,219])
     lower_green = np.array([227,235,226])
     upper_green = np.array([255,255,254])
-    test_image = frame #cv2.imread('images/human_player/s.jpg')
+    test_image = cv2.imread('images/test3.jpeg')
 
     # cv2.imshow('Test',test_image)x
     resizedImage = cv2.resize(test_image,(300,300))
@@ -82,7 +82,25 @@ while True:
         print(midPoint)
         cv2.line(resizedImage,(midPoint,0),(midPoint,300), (255,255,255))
         cv2.line(resizedImage,(0,150),(300,150), (255,255,255))
-    
+        
+        
+        cameraHorizAngle = 60
+        pixelToAngle = 300/cameraHorizAngle
+        angles = []
+        moc = 150 # moc stands for middle of the camera
+        distanceToTurn = 0
+        if(moc-midPoint >= 1):
+            distanceToTurn = moc-midPoint
+            pixelToAngle = -pixelToAngle
+        else:
+            distanceToTurn = midPoint-moc
+            
+             
+        angleToTurn = int(distanceToTurn/pixelToAngle)
+        print('Angle : ' + str(angleToTurn))
+        
+        
+        
     cv2.imshow('Filled Image',resizedImage)
 
     keyPressed = cv2.waitKey(1)
