@@ -78,7 +78,7 @@ while True:
         if(area > 125):
             contourIndexes.append(contourCounter)
         contourCounter += 1
-    print(contourIndexes)
+     # print(contourIndexes)
     if(len(contourIndexes) >= 2):
         cnt = contours[contourIndexes[-1]]
         cnt2 = contours[contourIndexes[-2]]
@@ -87,7 +87,7 @@ while True:
         x,y,w,h = cv2.boundingRect(cnt) 
         x2,y2,w2,h2 = cv2.boundingRect(cnt2)
         midPoint = (x+x2+w2)/2
-        print(midPoint)
+       # print(midPoint)
         cv2.line(resizedImage,(midPoint,0),(midPoint,300), (0,0,255))
         cv2.line(resizedImage,(0,150),(300,150), (0,0,255))
         
@@ -105,10 +105,11 @@ while True:
             
              
         angleToTurn = int(distanceToTurn/pixelToAngle)
-        print('Angle : ' + str(angleToTurn))
+        
         
         if(datatable.getBoolean('visionTrigger', False) == True):
             print("i got a message ")
+            print('Angle : ' + str(angleToTurn))
             datatable.putNumber('angle',angleToTurn)
         
     if(display == 1):
