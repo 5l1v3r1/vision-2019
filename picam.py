@@ -43,7 +43,7 @@ if(display == 1):
 
 NetworkTables.initialize(server = ip)
 datatable = NetworkTables.getTable("datatable")
-subprocess.call('sh_files/ledbatch.sh').
+subprocess.call("sudo","sh_files/ledbatch.sh")
 
 
 # capture frames from the camera
@@ -80,10 +80,10 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         gHigh = cv2.getTrackbarPos(gh, wnd)
         rLow  = cv2.getTrackbarPos(rl, wnd)
         rHigh = cv2.getTrackbarPos(rh, wnd)
-    
+
         rgbLow=np.array([bLow,gLow,rLow])
         rgbHigh=np.array([bHigh,gHigh,rHigh])
-    
+
         maskedImage = cv2.inRange(frame, rgbLow, rgbHigh)
         kernel = np.ones((10,10),np.uint8)
         openedImage = cv2.morphologyEx(maskedImage, cv2.MORPH_OPEN, kernel)
@@ -105,14 +105,14 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cnt2 = contours[contourIndexes[-2]]
         cv2.drawContours(resizedImage,[cnt],0,(255,0,0),4)
         cv2.drawContours(resizedImage,[cnt2],0,(255,0,0),4)
-        x,y,w,h = cv2.boundingRect(cnt) 
+        x,y,w,h = cv2.boundingRect(cnt)
         x2,y2,w2,h2 = cv2.boundingRect(cnt2)
         midPoint = (int)((x+x2+w2)/2)
        # print(midPoint)
         cv2.line(resizedImage,(midPoint,0),(midPoint,300), (0,0,255))
         cv2.line(resizedImage,(0,150),(300,150), (0,0,255))
-        
-        
+
+
         cameraHorizAngle = 60
         pixelToAngle = 300/cameraHorizAngle
         angles = []
@@ -123,20 +123,20 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             pixelToAngle = -pixelToAngle
         else:
             distanceToTurn = midPoint-moc
-            
-             
+
+
         angleToTurn = int(distanceToTurn/pixelToAngle)
         print(angleToTurn)
-        
-        
+
+
         if(datatable.getBoolean('visionTrigger', False) == True):
             print("i got a message ")
             subprocess.call('sh_files/ledbatch.sh')
             print('Angle : ' + str(angleToTurn))
             datatable.putNumber('angle',angleToTurn)
-            
-            
-        
+
+
+
     if(display == 1):
         cv2.imshow('Filled Image',resizedImage)
 
