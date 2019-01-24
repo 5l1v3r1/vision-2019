@@ -43,8 +43,7 @@ if(display == 1):
 
 NetworkTables.initialize(server = ip)
 datatable = NetworkTables.getTable("datatable")
-subprocess.call("sudo","sh_files/ledbatch.sh")
-
+subprocess.call(["sudo","sh_files/ledbatch.sh"])
 
 # capture frames from the camera
 for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
