@@ -5,6 +5,7 @@ import time
 import cv2
 from networktables import NetworkTables
 import numpy as np
+import subprocess
 
 
 def nothing(x):
@@ -42,6 +43,7 @@ if(display == 1):
 
 NetworkTables.initialize(server = ip)
 datatable = NetworkTables.getTable("datatable")
+subprocess.call('sh_files/ledbatch.sh').
 
 
 # capture frames from the camera
@@ -55,7 +57,7 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.imshow("Video Capture",frame)
     # cargo lower_green = np.array([0,203,0])
     # cargo upper_green = np.array([178,255,219])
-    lower_green = np.array([170,203,170]) # 227,235,226 old values
+    lower_green = np.array([225,254,225]) # 243,244,246 old values
     upper_green = np.array([255,255,255]) # 255,255,254 old values
     test_image = frame
 
@@ -129,8 +131,11 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         
         if(datatable.getBoolean('visionTrigger', False) == True):
             print("i got a message ")
+            subprocess.call('sh_files/ledbatch.sh')
             print('Angle : ' + str(angleToTurn))
             datatable.putNumber('angle',angleToTurn)
+            
+            
         
     if(display == 1):
         cv2.imshow('Filled Image',resizedImage)
