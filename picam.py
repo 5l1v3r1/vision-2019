@@ -43,7 +43,7 @@ if(display == 1):
 
 NetworkTables.initialize(server = ip)
 datatable = NetworkTables.getTable("datatable")
-subprocess.call(["sudo","sh_files/ledbatch.sh"])
+subprocess.call(["sudo","sh_files/ledbatch.sh"]) # thats for test. put in comment after testing.
 
 # capture frames from the camera
 for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
@@ -130,7 +130,7 @@ for image in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
         if(datatable.getBoolean('visionTrigger', False) == True):
             print("i got a message ")
-            subprocess.call('sh_files/ledbatch.sh')
+            subprocess.call(["sudo","sh_files/ledbatch.sh"])
             print('Angle : ' + str(angleToTurn))
             datatable.putNumber('angle',angleToTurn)
 
